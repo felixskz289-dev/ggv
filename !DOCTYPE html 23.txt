@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Весёлый китайский · Урок 7 你买什么 — урок на 60 минут</title>
+<style>
+:root{--text:#1a1a1a;--mut:#6b7280;--border:#e5e7eb;--soft:#f3f4f6;--ok:#16a34a;--bad:#dc2626}
+*{box-sizing:border-box}
+body{font-family:-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;margin:0;background:#fafafa;color:var(--text)}
+button{font:inherit}
+.wrap{max-width:820px;margin:0 auto;padding:20px 16px 60px}
+.speaker{width:22px;height:22px;border:1px solid var(--border);border-radius:8px;background:#fff;color:var(--mut);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;padding:0;vertical-align:middle}
+.speaker:hover{color:var(--text)}
+.card{border:1px solid var(--border);border-radius:10px;padding:8px 12px;cursor:pointer;text-align:center;background:#fff}
+.card:hover{border-color:#9ca3af}
+.card .hz{font-size:22px;font-weight:500}
+.chip{border:1px solid var(--border);border-radius:6px;padding:4px 10px;cursor:pointer;background:#fff}
+.chip:hover{border-color:var(--text)}
+.chip.done{background:#dcfce7;border-color:var(--ok)}
+.chip.bad{background:#fee2e2;border-color:var(--bad)}
+.opt{display:block;width:100%;text-align:left;border:1px solid var(--border);border-radius:10px;padding:8px 12px;margin:4px 0;background:#fff;cursor:pointer}
+.opt:hover{border-color:var(--text)}
+.opt.right{background:#dcfce7;border-color:var(--ok)}
+.opt.wrong{background:#fee2e2;border-color:var(--bad)}
+.seg{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--border)}
+.seg.on .sl{color:var(--text);font-weight:500}
+.seg.done .sl{text-decoration:line-through;color:#9ca3af}
+.seg .sl{color:var(--mut);cursor:pointer}
+.bar{height:6px;border-radius:6px;background:var(--soft);overflow:hidden}
+.bar>div{height:100%;background:var(--text);transition:width .3s}
+.btn{border:1px solid var(--border);border-radius:8px;padding:6px 14px;background:#fff;cursor:pointer}
+.btn:hover{border-color:var(--text)}
+.btn.primary{background:var(--text);color:#fff;border-color:var(--text)}
+h3{font-size:19px;margin:26px 0 10px}
+h4{font-size:15px;margin:12px 0 4px}
+.mut{color:var(--mut);font-size:13px}
+.zh{font-size:19px;font-weight:500}
+.pn{color:var(--mut);font-size:13px}
+.tr{color:#4b5563;font-size:13px}
+.panel{border:1px solid var(--border);border-radius:10px;padding:10px 12px;background:#fff}
+@media(max-width:640px){#gridmatch{grid-template-columns:1fr!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div style="display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between">
+  <div>
+    <div style="font-size:20px;font-weight:500">Весёлый китайский · Урок 7</div>
+    <div class="zh" style="font-size:26px">你买什么 <span class="mut" style="font-size:15px;font-weight:400">Nǐ mǎi shénme? — Что ты покупаешь?</span></div>
+  </div>
+  <div style="display:flex;align-items:center;gap:12px">
+    <div id="clock" style="font-size:40px;font-weight:500;font-variant-numeric:tabular-nums">60:00</div>
+    <div style="display:flex;gap:8px">
+      <button class="btn primary" id="tgl" onclick="toggleTimer()">Старт</button>
+      <button class="btn" onclick="resetTimer()">Сброс</button>
+    </div>
+  </div>
+</div>
+
+<div style="margin-top:12px">
+  <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--mut);margin-bottom:4px"><span>Прогресс урока</span><span id="pval">0%</span></div>
+  <div class="bar"><div id="pbar" style="width:0%"></div></div>
+</div>
+
+<h3>План урока на 60 минут</h3>
+<div id="plan"></div>
+<div class="mut" style="margin-top:4px">Отмечай выполненные этапы — они зачёркиваются, активный этап подсвечивается.</div>
+
+<h3>New Words · 生词 <span class="mut" style="font-weight:400">— нажми на карточку, чтобы услышать</span></h3>
+<div id="words" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px"></div>
+
+<div class="panel" style="margin-top:12px">
+  <h4 style="margin-top:0">Из каких иероглифов состоит слово?</h4>
+  <div id="comp"></div>
+</div>
+
+<h3>Флэшкарты: угадай слово</h3>
+<div class="panel" style="text-align:center;cursor:pointer;max-width:340px;margin:0 auto" id="fcard" onclick="flipCard()">
+  <div id="fhz" class="zh" style="font-size:30px"></div>
+  <div id="fpn" class="pn"></div>
+  <div id="ftr" class="tr" style="visibility:hidden;margin-top:4px"></div>
+  <div class="mut" style="margin-top:6px">нажми, чтобы перевернуть</div>
+</div>
+<div style="display:flex;gap:8px;justify-content:center;margin-top:8px">
+  <button class="btn" onclick="speak(currentWord().hz)">Прослушать</button>
+  <button class="btn primary" onclick="nextCard()">Следующая →</button>
+</div>
+
+<h3>🪜 Лесенки словосочетаний</h3>
+<div id="ladderTabs" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px"></div>
+<div id="ladderSteps" style="display:flex;flex-direction:column;gap:4px"></div>
+<h4>Собери лесенку: нажимай чипы от простого к сложному</h4>
+<div id="lchips" style="display:flex;flex-wrap:wrap;gap:6px"></div>
+<div id="lanswer" style="min-height:24px;margin-top:6px;font-size:15px"></div>
+<div style="margin-top:4px"><span class="mut">Очки лесенок: <b id="lscore">0</b> / 5</span> <button class="btn" style="margin-left:8px" onclick="resetLadder()">Заново</button></div>
+
+<h3>Образцы предложений · Sentence Patterns</h3>
+<div class="panel" id="patterns"></div>
+
+<h3>Диалоги · Read aloud</h3>
+<div class="panel" id="dialogues" style="display:flex;flex-direction:column;gap:8px"></div>
+<div class="panel" style="margin-top:8px">
+  <div class="zh">今天是星期六，我要买很多东西。我要买五瓶水、三瓶牛奶，还要买六个鸡蛋、两斤苹果和一斤点心。</div>
+  <div class="pn">Jīntiān shì xīngqīliù… — Сегодня суббота, я хочу купить много всего: пять бутылок воды, три бутылки молока, шесть яиц, два цзиня яблок и один цзинь выпечки.</div>
+  <button class="speaker" style="margin-top:6px" onclick="speak('今天是星期六，我要买很多东西。我要买五瓶水、三瓶牛奶，还要买六个鸡蛋、两斤苹果和一斤点心。')"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H3v6h3l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg></button>
+</div>
+
+<h3>Задание 6. Read and match <span class="mut" style="font-weight:400">— соедини китайское и английское</span></h3>
+<div id="gridmatch" style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+  <div id="mzh"></div>
+  <div id="men"></div>
+</div>
+<div id="mstat" class="mut" style="margin-top:4px">Совпадений: 0 / 5</div>
+
+<h3>Задание 7. Translation <span class="mut" style="font-weight:400">— выбери правильный перевод</span></h3>
+<div id="trans"></div>
+
+<h3>🏆 Финальный тест (10 вопросов)</h3>
+<div id="quiz"></div>
+<div style="margin-top:10px;display:flex;gap:8px;align-items:center">
+  <button class="btn primary" onclick="checkQuiz()">Проверить</button>
+  <span id="qres" class="mut"></span>
+</div>
+<div id="cert" class="panel" style="display:none;margin-top:12px;border-color:var(--ok);text-align:center">
+  <div style="font-size:20px;font-weight:500">🎉 Поздравляем! 恭喜！</div>
+  <div class="mut" style="margin-top:4px">Урок «你买什么» пройден! Ты умеешь покупать всё на китайском: 一瓶水, 两斤苹果, 六个鸡蛋!</div>
+</div>
+
+</div>
+
+<script>
+function speak(t){try{var u=new SpeechSynthesisUtterance(t);u.lang='zh-CN';u.rate=0.85;speechSynthesis.cancel();speechSynthesis.speak(u);}catch(e){}}
+var TOTAL=3600,left=TOTAL,tm=null;
+function fmt(s){var m=Math.floor(s/60),x=s%60;return (m<10?'0':'')+m+':'+(x<10?'0':'')+x;}
+function toggleTimer(){var b=document.getElementById('tgl');if(tm){clearInterval(tm);tm=null;b.textContent='Старт';}else{b.textContent='Пауза';tm=setInterval(function(){left=Math.max(0,left-1);document.getElementById('clock').textContent=fmt(left);markSegment();if(left===0){clearInterval(tm);tm=null;b.textContent='Старт';}},1000);}}
+function resetTimer(){clearInterval(tm);tm=null;left=TOTAL;document.getElementById('clock').textContent=fmt(left);document.getElementById('tgl').textContent='Старт';markSegment();}
+var PLAN=[['0–5 мин','Разминка: повторить приветствия, 谢谢 и счёт 一–十'],['5–15 мин','New Words: слова урока, слушаем и повторяем'],['15–30 мин','ЛЕСЕНКИ: словосочетания + флэшкарты'],['30–40 мин','Sentence Patterns и диалоги: читаем вслух за диктором'],['40–50 мин','Задания 6–7: match и перевод'],['50–60 мин','Финальный тест, итоги и сертификат']];
+var planDone=[false,false,false,false,false,false];
+function renderPlan(){document.getElementById('plan').innerHTML=PLAN.map(function(p,i){return '<div class="seg" id="seg'+i+'"><input type="checkbox" id="cb'+i+'" onchange="planCh('+i+')"><label class="sl" for="cb'+i+'"><b>'+p[0]+'</b> · '+p[1]+'</label></div>';}).join('');}
+function planCh(i){planDone[i]=document.getElementById('cb'+i).checked;document.getElementById('seg'+i).classList.toggle('done',planDone[i]);updProgress();}
+function markSegment(){var el=TOTAL-left,act=Math.min(5,Math.floor(el/600));for(var i=0;i<6;i++){var seg=document.getElementById('seg'+i);if(seg)seg.classList.toggle('on',i===act&&!planDone[i]);}}
+var WORDS=[['买','mǎi','покупать'],['水','shuǐ','вода'],['点心','diǎnxin','выпечка, сладости'],['还','hái','ещё, также'],['斤','jīn','цзинь (½ кг)'],['瓶','píng','бутылка'],['和','hé','и'],['要','yào','хотеть, собираться'],['东西','dōngxi','вещь, штука'],['苹果','píngguǒ','яблоко'],['鸡蛋','jīdàn','яйцо'],['汽水','qìshuǐ','газировка'],['水果','shuǐguǒ','фрукты'],['牛奶','niúnǎi','молоко']];
+document.getElementById('words').innerHTML=WORDS.map(function(w){return '<div class="card" onclick="speak(\''+w[0]+'\')"><div class="hz">'+w[0]+'</div><div class="pn">'+w[1]+'</div><div class="tr">'+w[2]+'</div></div>';}).join('');
+var COMPS=[['东西','dōngxi','вещь','东 dōng — восток','西 xī — запад'],['牛奶','niúnǎi','молоко','牛 niú — корова','奶 nǎi — молоко'],['点心','diǎnxin','выпечка','点 diǎn — капля, точка','心 xīn — сердце']];
+document.getElementById('comp').innerHTML=COMPS.map(function(c){return '<div style="margin:6px 0"><span class="zh">'+c[0]+'</span> <span class="pn">'+c[1]+'</span> — '+c[2]+' = <b>'+c[3]+'</b> + <b>'+c[4]+'</b></div>';}).join('');
+var fi=0,fshow=false;
+function currentWord(){return WORDS[fi];}
+function renderCard(){var w=currentWord();document.getElementById('fhz').textContent=w[0];document.getElementById('fpn').textContent=w[1];document.getElementById('ftr').textContent=w[2];document.getElementById('ftr').style.visibility=fshow?'visible':'hidden';}
+function flipCard(){fshow=!fshow;renderCard();}
+function nextCard(){fi=(fi+1)%WORDS.length;fshow=false;renderCard();}
+renderCard();
+var LADDERS=[{n:'水',steps:['水','一瓶水','买一瓶水','我要买一瓶水','我还要买一瓶水']},{n:'东西',steps:['东西','买东西','买很多东西','我要买很多东西','今天我要买很多东西']},{n:'苹果',steps:['苹果','两斤苹果','买两斤苹果','我要买两斤苹果','我还要买两斤苹果']},{n:'点心',steps:['点心','一斤点心','买一斤点心','我还要买一斤点心']},{n:'牛奶',steps:['牛奶','三瓶牛奶','买三瓶牛奶','我要买三瓶牛奶','还要买六个鸡蛋']}];
+var li=0,lprog=0,ldone=0;
+function renderLadder(){document.getElementById('ladderTabs').innerHTML=LADDERS.map(function(l,i){return '<button class="chip'+(i===li?' done':'')+'" onclick="selLadder('+i+')">'+l.n+'</button>';}).join('');
+var L=LADDERS[li];document.getElementById('ladderSteps').innerHTML=L.steps.map(function(s,i){return '<div style="display:flex;align-items:center;gap:8px;padding:4px 0;border-bottom:1px solid var(--border)"><span class="mut" style="font-size:12px;width:56px">ступень '+(i+1)+'</span><span class="zh" style="font-size:17px;cursor:pointer" onclick="speak(\''+s+'\')">'+s+'</span></div>';}).join('');
+var sh=L.steps.slice(1).slice().sort(function(){return 0.5-Math.random();});
+document.getElementById('lchips').innerHTML=sh.map(function(s){return '<button class="chip" onclick="pickChip(this,\''+s+'\')">'+s+'</button>';}).join('');
+lprog=0;document.getElementById('lanswer').textContent=L.steps[0];}
+function selLadder(i){li=i;renderLadder();}
+function pickChip(el,s){var L=LADDERS[li];if(s===L.steps[lprog+1]){el.classList.add('done');el.disabled=true;lprog++;document.getElementById('lanswer').textContent=L.steps.slice(0,lprog+1).join(' → ');speak(s);if(lprog===L.steps.length-1){ldone++;document.getElementById('lscore').textContent=ldone;updProgress();}}else{el.classList.add('bad');setTimeout(function(){el.classList.remove('bad');},500);}}
+function resetLadder(){renderLadder();}
+renderLadder();
+var PATS=[['你买什么？','Nǐ mǎi shénme?','Что ты покупаешь?'],['我买鸡蛋和点心。','Wǒ mǎi jīdàn hé diǎnxin.','Я куплю яйца и выпечку.'],['你还要什么？','Nǐ hái yào shénme?','Что ещё ты хочешь?'],['我还要一瓶牛奶、两斤苹果。','Wǒ hái yào yì píng niúnǎi, liǎng jīn píngguǒ.','Мне ещё бутылка молока и два цзиня яблок.'],['我想买很多东西。','Wǒ xiǎng mǎi hěn duō dōngxi.','Я хочу купить много всего.']];
+document.getElementById('patterns').innerHTML=PATS.map(function(p){return '<div style="display:flex;align-items:center;gap:8px;padding:4px 0;border-bottom:1px solid var(--border)"><span class="zh" style="font-size:17px;cursor:pointer" onclick="speak(\''+p[0]+'\')">'+p[0]+'</span><span class="pn">'+p[1]+'</span><span class="tr">— '+p[2]+'</span></div>';}).join('');
+var DLG=[['你买什么？','Nǐ mǎi shénme?'],['我要买苹果。','Wǒ yào mǎi píngguǒ.'],['你要几斤？','Nǐ yào jǐ jīn?'],['我要两斤。','Wǒ yào liǎng jīn.'],['你要买什么？','Nǐ yào mǎi shénme?'],['我买两瓶牛奶和三瓶水。','Wǒ mǎi liǎng píng niúnǎi hé sān píng shuǐ.'],['你还买什么？','Nǐ hái mǎi shénme?'],['我还要两斤苹果。','Wǒ hái yào liǎng jīn píngguǒ.']];
+document.getElementById('dialogues').innerHTML=DLG.map(function(d,i){return '<div style="display:flex;align-items:center;gap:8px"><b style="width:20px;color:var(--mut)">'+(i%2?'B':'A')+'</b><span class="zh" style="font-size:17px;cursor:pointer" onclick="speak(\''+d[0]+'\')">'+d[0]+'</span><span class="pn">'+d[1]+'</span></div>';}).join('');
+var MATCH=[['他有一只小猫。','b'],['我们班有十个学生和三个教师。','a'],['我买一瓶果汁和一斤牛肉。','d'],['你还要买什么？','c'],['我要一斤苹果，还要一斤点心。','e']];
+var MEN=[['a','There are ten students and three teachers in my class.'],['b','He has a little cat.'],['c','What else do you want to buy?'],['d','I want to buy a bottle of juice and half a kilo of beef.'],['e','I want half a kilo of apples and half a kilo of pastries.']];
+var msel=null,mdone=0;
+document.getElementById('mzh').innerHTML=MATCH.map(function(m,i){return '<button class="opt" id="mz'+i+'" onclick="selZh('+i+')">'+m[0]+'</button>';}).join('');
+document.getElementById('men').innerHTML=MEN.map(function(m){return '<button class="opt" id="me'+m[0]+'" onclick="selEn(\''+m[0]+'\')">'+m[0]+') '+m[1]+'</button>';}).join('');
+function selZh(i){if(document.getElementById('mz'+i).classList.contains('right'))return;for(var k=0;k<5;k++)document.getElementById('mz'+k).style.borderColor='';msel=i;document.getElementById('mz'+i).style.borderColor='var(--text)';}
+function selEn(l){if(msel===null||document.getElementById('me'+l).classList.contains('right'))return;var z=document.getElementById('mz'+msel);if(MATCH[msel][1]===l){z.classList.add('right');document.getElementById('me'+l).classList.add('right');mdone++;document.getElementById('mstat').textContent='Совпадений: '+mdone+' / 5';if(mdone===5)updProgress();}else{var e=document.getElementById('me'+l);e.classList.add('wrong');setTimeout(function(){e.classList.remove('wrong');},600);}msel=null;}
+var TRANS=[['我想买东西，我想买很多东西！',['Я хочу купить кое-что, хочу купить много всего!','Я хочу продать воду и молоко.','Я хочу пить чай и сок.'],0],['我要买两瓶果汁和一瓶汽水，你买什么？',['Я куплю два сока и одну газировку, а ты?','Я куплю две бутылки молока и хлеб.','Я хочу два яблока и одну рыбу.'],0],['我们买苹果，我要一斤，他要两斤。',['Мы покупаем яблоки: мне полкило, ему килограмм.','Мы продаём яблоки: одно яблоко, два яблока.','Мы едим яблоки: я одно, он два.'],0],['桌子上有水果和点心，还有一瓶水和两个鸡蛋。',['На столе фрукты и выпечка, а ещё бутылка воды и два яйца.','На столе много книг и один компьютер.','В комнате стул, кровать и книжная полка.'],0],['他有三只小猫。小猫喜欢牛奶，还喜欢鱼。',['У него три котёнка. Котята любят молоко и ещё любят рыбу.','У него три собаки. Собаки любят мясо и хлеб.','У неё три цветка. Цветы любят воду и солнце.'],0]];
+document.getElementById('trans').innerHTML=TRANS.map(function(t,i){return '<div style="margin-bottom:10px"><div class="zh" style="cursor:pointer" onclick="speak(\''+t[0]+'\')">'+(i+1)+'. '+t[0]+'</div>'+t[1].map(function(o,j){return '<button class="opt" id="t'+i+'o'+j+'" onclick="pickTrans('+i+','+j+')">'+o+'</button>';}).join('')+'</div>';}).join('');
+var tDone=0;
+function pickTrans(i,j){if(document.getElementById('t'+i+'o0').classList.contains('right'))return;var ok=j===TRANS[i][2];document.getElementById('t'+i+'o'+j).classList.add(ok?'right':'wrong');if(!ok)return;tDone++;if(tDone===5)updProgress();}
+var QUIZ=[{q:'Выбери перевод слова 买',o:['покупать','вода','есть','идти'],a:0},{q:'Что значит 还 в предложении 你还要什么？',o:['ещё, также','очень','не','и'],a:0},{q:'一斤 — это…',o:['полкилограмма','килограмм','литр','бутылка'],a:0},{q:'我要买两瓶牛奶 — это…',o:['я хочу купить две бутылки молока','я хочу выпить две чашки чая','я купил два яблока','я продаю воду'],a:0},{q:'Как спросить «Что ты покупаешь?»',o:['你买什么？','你要几斤？','你好吗？','你买什么笔？'],a:0},{q:'Выбери правильное: «Я куплю яйца и выпечку»',o:['我买鸡蛋和点心。','我要水和汽水。','他买苹果和牛奶。','我们买东西。'],a:0},{q:'Какой счётчик подходит к 水 и 牛奶？',o:['瓶','斤','个','只'],a:0},{q:'Что значит 东西？',o:['вещь, штука','еда','питьё','деньги'],a:0},{q:'Собери предложение «Мне ещё нужна одна бутылка молока»',type:'order',o:['我','还','要','一瓶牛奶'],a:['我','还','要','一瓶牛奶']},{q:'Собери предложение «Что ещё ты хочешь купить?»',type:'order',o:['你','还','要','买什么'],a:['你','还','要','买什么']}];
+document.getElementById('quiz').innerHTML=QUIZ.map(function(q,i){if(q.type==='order'){var sh2=q.o.slice().sort(function(){return 0.5-Math.random();});return '<div style="margin-bottom:12px"><div style="font-weight:500">'+(i+1)+'. '+q.q+'</div><div style="display:flex;flex-wrap:wrap;gap:6px;margin:6px 0">'+sh2.map(function(c){return '<button class="chip" onclick="ordPick(this,\''+c+'\','+i+')">'+c+'</button>';}).join('')+'</div><div class="mut" id="ord'+i+'"></div></div>';}return '<div style="margin-bottom:12px"><div style="font-weight:500">'+(i+1)+'. '+q.q+'</div>'+q.o.map(function(o,j){return '<button class="opt" id="q'+i+'o'+j+'" onclick="pickQuiz('+i+','+j+')">'+o+'</button>';}).join('')+'</div>';}).join('');
+var picks={},ordAns={},quizDone=false;
+function pickQuiz(i,j){if(quizDone)return;picks[i]=j;}
+function ordPick(el,c,i){if(quizDone)return;ordAns[i]=ordAns[i]||[];ordAns[i].push(c);el.disabled=true;el.classList.add('done');document.getElementById('ord'+i).textContent=ordAns[i].join(' ');}
+function checkQuiz(){quizDone=true;var sc=0;QUIZ.forEach(function(q,i){if(q.type==='order'){var ok=ordAns[i]&&ordAns[i].join('|')===q.a.join('|');if(ok)sc++;else{var d=document.getElementById('ord'+i);d.textContent=(ordAns[i]?ordAns[i].join(' '):'')+' ✗ правильно: '+q.a.join(' ');d.style.color='var(--bad)';}return;}var j=picks[i];if(j===q.a){sc++;document.getElementById('q'+i+'o'+j).classList.add('right');}else{if(j!==undefined)document.getElementById('q'+i+'o'+j).classList.add('wrong');document.getElementById('q'+i+'o'+q.a).classList.add('right');}});document.getElementById('qres').textContent='Результат: '+sc+' / 10';if(sc>=7){document.getElementById('cert').style.display='block';}updProgress();}
+function updProgress(){var p=planDone.filter(Boolean).length/6*50+ldone/5*15+mdone/5*10+Math.min(tDone,5)/5*10+(quizDone?15:0);p=Math.min(100,Math.round(p));document.getElementById('pbar').style.width=p+'%';document.getElementById('pval').textContent=p+'%';}
+renderPlan();
+</script>
+</body>
+</html>
